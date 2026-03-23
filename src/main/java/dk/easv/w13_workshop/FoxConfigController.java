@@ -1,30 +1,29 @@
 package dk.easv.w13_workshop;
 
-import com.foxconfig.command.CommandManager;
-import com.foxconfig.command.ConfigureParameterCommand;
-import com.foxconfig.command.FoxCommand;
-import com.foxconfig.model.FoxConfig;
-import com.foxconfig.repository.ApiFoxRepository;
-import com.foxconfig.repository.FoxRepository;
-import com.foxconfig.repository.MockFoxRepository;
+import dk.easv.w13_workshop.foxconfig.command.CommandManager;
+import dk.easv.w13_workshop.foxconfig.command.ConfigureParameterCommand;
+import dk.easv.w13_workshop.foxconfig.command.FoxCommand;
+import dk.easv.w13_workshop.foxconfig.model.FoxConfig;
+import dk.easv.w13_workshop.foxconfig.repository.ApiFoxRepository;
+import dk.easv.w13_workshop.foxconfig.repository.FoxRepository;
+import dk.easv.w13_workshop.foxconfig.repository.MockFoxRepository;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.paint.Color;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * Main UI Controller.
+ * Main UI Controller for Fox Configuration.
  *
  * Wires together the three design patterns:
  *   • COMMAND  – each "Queue" button creates a ConfigureParameterCommand
  *   • ITERATOR – CommandManager.executeAll() iterates via CommandIterator
  *   • REPOSITORY – FoxRepository is injected; swap for Telnet/Mock easily
  */
-public class MainController {
+public class FoxConfigController {
 
     // ── FXML fields ──────────────────────────────────────────────────────────
 

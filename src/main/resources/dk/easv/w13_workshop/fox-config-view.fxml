@@ -6,7 +6,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.foxconfig.ui.MainController">
+            fx:controller="dk.easv.w13_workshop.FoxConfigController">
 
     <!-- ═══════════════════════  TOP HEADER  ══════════════════════════════ -->
     <top>
