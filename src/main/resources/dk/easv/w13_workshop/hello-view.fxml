@@ -1,16 +1,150 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="dk.easv.w13_workshop.HelloController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.foxconfig.ui.MainController">
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+    <!-- ═══════════════════════  TOP HEADER  ══════════════════════════════ -->
+    <top>
+        <VBox>
+            <Label text="🦊  FOX CONFIGURATOR"/>
+            <Label text="Orienteering Fox Machine – Configuration Terminal" />
+        </VBox>
+    </top>
+
+    <!-- ═══════════════════════  CENTER CONTENT  ══════════════════════════ -->
+    <center>
+        <ScrollPane fitToWidth="true" >
+            <VBox spacing="16">
+                <padding><Insets top="20" right="24" bottom="20" left="24"/></padding>
+
+                <!-- ── Group number + repository ── -->
+                <HBox spacing="24" alignment="CENTER_LEFT">
+                    <VBox spacing="4" >
+                        <Label text="Group Number" />
+                        <TextField fx:id="tfGroupNumber" promptText="1"
+                                    maxWidth="100"/>
+                    </VBox>
+
+                    <VBox spacing="4" >
+                        <Label text="Repository" />
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <RadioButton fx:id="rbApi"  text="API  (http://10.5.10.10:8080)"
+                                         />
+                            <RadioButton fx:id="rbMock" text="Mock (offline)"
+                                         />
+                        </HBox>
+                    </VBox>
+                </HBox>
+
+                <Separator/>
+
+                <!-- ── Configuration parameters ── -->
+                <Label text="Configuration Parameters" />
+
+                <GridPane hgap="16" vgap="12" >
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="160" prefWidth="180"/>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                        <ColumnConstraints minWidth="110" prefWidth="120"/>
+                    </columnConstraints>
+
+                    <!-- Header row -->
+                    <Label text="Parameter"     GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <Label text="Value"         GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                    <Label text="Queue"         GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+
+                    <!-- Test time -->
+                    <Label text="Test Begin Time"  GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <TextField fx:id="tfTestTime"  promptText="e.g. 1230"
+                               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                    <Button fx:id="btnQueueTest" text="+ Queue" onAction="#onQueueTest"
+                             maxWidth="Infinity"
+                            GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+
+                    <!-- Start time -->
+                    <Label text="Hunt Start Time"   GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                    <TextField fx:id="tfStartTime"  promptText="e.g. 1300"
+                               GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                    <Button fx:id="btnQueueStart" text="+ Queue" onAction="#onQueueStart"
+                             maxWidth="Infinity"
+                            GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+
+                    <!-- Stop time -->
+                    <Label text="Hunt Stop Time"     GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                    <TextField fx:id="tfStopTime"   promptText="e.g. 1500"
+                               GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                    <Button fx:id="btnQueueStop" text="+ Queue" onAction="#onQueueStop"
+                             maxWidth="Infinity"
+                            GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+
+                    <!-- Fox ID -->
+                    <Label text="Fox ID"             GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                    <ComboBox fx:id="cbFoxId"  maxWidth="Infinity"
+                              GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                    <Button fx:id="btnQueueId" text="+ Queue" onAction="#onQueueId"
+                             maxWidth="Infinity"
+                            GridPane.columnIndex="2" GridPane.rowIndex="4"/>
+
+                    <!-- Frequency -->
+                    <Label text="Frequency (Hz)"     GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                    <TextField fx:id="tfFrequency"  promptText="e.g. 434750"
+                               GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                    <Button fx:id="btnQueueFreq" text="+ Queue" onAction="#onQueueFreq"
+                             maxWidth="Infinity"
+                            GridPane.columnIndex="2" GridPane.rowIndex="5"/>
+
+                    <!-- Period -->
+                    <Label text="Repeat Period (min)"  GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+                    <TextField fx:id="tfPeriod"       promptText="e.g. 5"
+                               GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+                    <Button fx:id="btnQueuePeriod" text="+ Queue" onAction="#onQueuePeriod"
+                             maxWidth="Infinity"
+                            GridPane.columnIndex="2" GridPane.rowIndex="6"/>
+
+                    <!-- Fox call -->
+                    <Label text="Fox Call (≤15 chars)"  GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+                    <TextField fx:id="tfFoxCall"       promptText="e.g. OZ7FOX"
+                               GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+                    <Button fx:id="btnQueueCall" text="+ Queue" onAction="#onQueueCall"
+                             maxWidth="Infinity"
+                            GridPane.columnIndex="2" GridPane.rowIndex="7"/>
+                </GridPane>
+
+                <Separator/>
+
+                <!-- ── Pending queue log ── -->
+                <HBox spacing="16" alignment="CENTER_LEFT">
+                    <Label text="Pending Queue" />
+                    <Label fx:id="lblPendingCount" text="Pending commands: 0" />
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button fx:id="btnClear" text="Clear Queue" onAction="#onClear"
+                            />
+                    <Button fx:id="btnSendAll" text="🚀  Send All to Fox" onAction="#onSendAll"
+                             disable="true"/>
+                </HBox>
+
+                <TextArea fx:id="taPendingLog" editable="false" prefHeight="120"
+                          promptText="Queued commands will appear here…"
+                           wrapText="true"/>
+
+                <Label text="Execution Log" />
+                <TextArea fx:id="taExecutionLog" editable="false" prefHeight="120"
+                          promptText="Execution results will appear here…"
+                           wrapText="true"/>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+    <!-- ═══════════════════════  BOTTOM STATUS BAR  ════════════════════════ -->
+    <bottom>
+        <HBox  alignment="CENTER_LEFT" spacing="12">
+            <Label text="Status:" />
+            <Label fx:id="lblStatus" text="Ready." />
+        </HBox>
+    </bottom>
+</BorderPane>
