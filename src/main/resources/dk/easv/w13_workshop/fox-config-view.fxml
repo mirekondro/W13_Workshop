@@ -1,150 +1,158 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="dk.easv.w13_workshop.FoxConfigController">
+            fx:controller="dk.easv.w13_workshop.FoxConfigController"
+            styleClass="border-pane">
 
     <!-- ═══════════════════════  TOP HEADER  ══════════════════════════════ -->
     <top>
-        <VBox>
-            <Label text="🦊  FOX CONFIGURATOR"/>
-            <Label text="Orienteering Fox Machine – Configuration Terminal" />
+        <VBox styleClass="header-box" alignment="CENTER">
+            <Label text="🦊  FOX CONFIGURATOR" styleClass="header-title"/>
+            <Label text="Professional Orienteering Equipment Setup Tool" styleClass="header-subtitle"/>
         </VBox>
     </top>
 
     <!-- ═══════════════════════  CENTER CONTENT  ══════════════════════════ -->
     <center>
-        <ScrollPane fitToWidth="true" >
-            <VBox spacing="16">
-                <padding><Insets top="20" right="24" bottom="20" left="24"/></padding>
+        <ScrollPane styleClass="content-scroll" fitToWidth="true" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER">
+            <VBox styleClass="content-vbox">
 
-                <!-- ── Group number + repository ── -->
-                <HBox spacing="24" alignment="CENTER_LEFT">
-                    <VBox spacing="4" >
-                        <Label text="Group Number" />
-                        <TextField fx:id="tfGroupNumber" promptText="1"
-                                    maxWidth="100"/>
-                    </VBox>
+                <!-- ── Group Configuration Section ── -->
+                <VBox styleClass="section-box">
+                    <Label text="🎯  Basic Configuration" styleClass="section-title"/>
+                    <HBox spacing="30" alignment="CENTER_LEFT">
+                        <VBox spacing="8" minWidth="150">
+                            <Label text="Group Number" styleClass="field-label"/>
+                            <TextField fx:id="tfGroupNumber" promptText="Enter group number (e.g., 1)"
+                                      maxWidth="120" styleClass="text-field"/>
+                        </VBox>
 
-                    <VBox spacing="4" >
-                        <Label text="Repository" />
-                        <HBox spacing="12" alignment="CENTER_LEFT">
-                            <RadioButton fx:id="rbApi"  text="API  (http://10.5.10.10:8080)"
-                                         />
-                            <RadioButton fx:id="rbMock" text="Mock (offline)"
-                                         />
-                        </HBox>
-                    </VBox>
-                </HBox>
+                        <VBox spacing="8">
+                            <Label text="Communication Mode" styleClass="field-label"/>
+                            <HBox spacing="20" alignment="CENTER_LEFT">
+                                <RadioButton fx:id="rbApi" text="🌐 API Connection"
+                                           styleClass="radio-button"/>
+                                <Label text="(http://10.5.10.10:8080)" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;"/>
+                                <RadioButton fx:id="rbMock" text="🔧 Mock Mode"
+                                           styleClass="radio-button"/>
+                                <Label text="(Offline Testing)" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;"/>
+                            </HBox>
+                        </VBox>
+                    </HBox>
+                </VBox>
 
-                <Separator/>
+                <!-- ── Configuration Parameters Section ── -->
+                <VBox styleClass="section-box">
+                    <Label text="⚙️  Fox Parameters" styleClass="section-title"/>
 
-                <!-- ── Configuration parameters ── -->
-                <Label text="Configuration Parameters" />
+                    <GridPane styleClass="grid-pane">
+                        <columnConstraints>
+                            <ColumnConstraints minWidth="180" prefWidth="200"/>
+                            <ColumnConstraints hgrow="ALWAYS" minWidth="200"/>
+                            <ColumnConstraints minWidth="120" prefWidth="140"/>
+                        </columnConstraints>
 
-                <GridPane hgap="16" vgap="12" >
-                    <columnConstraints>
-                        <ColumnConstraints minWidth="160" prefWidth="180"/>
-                        <ColumnConstraints hgrow="ALWAYS"/>
-                        <ColumnConstraints minWidth="110" prefWidth="120"/>
-                    </columnConstraints>
+                        <!-- Header row -->
+                        <Label text="Parameter" styleClass="field-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <Label text="Value" styleClass="field-label" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                        <Label text="Actions" styleClass="field-label" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
 
-                    <!-- Header row -->
-                    <Label text="Parameter"     GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                    <Label text="Value"         GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-                    <Label text="Queue"         GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                        <!-- Test time -->
+                        <Label text="🕐 Test Begin Time" styleClass="label" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <TextField fx:id="tfTestTime" promptText="e.g. 1230 (HHMM format)"
+                                   styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                        <Button fx:id="btnQueueTest" text="+ Queue" onAction="#onQueueTest"
+                               styleClass="queue-button" maxWidth="Infinity"
+                               GridPane.columnIndex="2" GridPane.rowIndex="1"/>
 
-                    <!-- Test time -->
-                    <Label text="Test Begin Time"  GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                    <TextField fx:id="tfTestTime"  promptText="e.g. 1230"
-                               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                    <Button fx:id="btnQueueTest" text="+ Queue" onAction="#onQueueTest"
-                             maxWidth="Infinity"
-                            GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                        <!-- Start time -->
+                        <Label text="🚀 Hunt Start Time" styleClass="label" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                        <TextField fx:id="tfStartTime" promptText="e.g. 1300 (HHMM format)"
+                                   styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                        <Button fx:id="btnQueueStart" text="+ Queue" onAction="#onQueueStart"
+                               styleClass="queue-button" maxWidth="Infinity"
+                               GridPane.columnIndex="2" GridPane.rowIndex="2"/>
 
-                    <!-- Start time -->
-                    <Label text="Hunt Start Time"   GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                    <TextField fx:id="tfStartTime"  promptText="e.g. 1300"
-                               GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                    <Button fx:id="btnQueueStart" text="+ Queue" onAction="#onQueueStart"
-                             maxWidth="Infinity"
-                            GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                        <!-- Stop time -->
+                        <Label text="🛑 Hunt Stop Time" styleClass="label" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                        <TextField fx:id="tfStopTime" promptText="e.g. 1500 (HHMM format)"
+                                   styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                        <Button fx:id="btnQueueStop" text="+ Queue" onAction="#onQueueStop"
+                               styleClass="queue-button" maxWidth="Infinity"
+                               GridPane.columnIndex="2" GridPane.rowIndex="3"/>
 
-                    <!-- Stop time -->
-                    <Label text="Hunt Stop Time"     GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-                    <TextField fx:id="tfStopTime"   promptText="e.g. 1500"
-                               GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                    <Button fx:id="btnQueueStop" text="+ Queue" onAction="#onQueueStop"
-                             maxWidth="Infinity"
-                            GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+                        <!-- Fox ID -->
+                        <Label text="🆔 Fox Identifier" styleClass="label" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                        <ComboBox fx:id="cbFoxId" maxWidth="Infinity" styleClass="combo-box"
+                                  GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                        <Button fx:id="btnQueueId" text="+ Queue" onAction="#onQueueId"
+                               styleClass="queue-button" maxWidth="Infinity"
+                               GridPane.columnIndex="2" GridPane.rowIndex="4"/>
 
-                    <!-- Fox ID -->
-                    <Label text="Fox ID"             GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-                    <ComboBox fx:id="cbFoxId"  maxWidth="Infinity"
-                              GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-                    <Button fx:id="btnQueueId" text="+ Queue" onAction="#onQueueId"
-                             maxWidth="Infinity"
-                            GridPane.columnIndex="2" GridPane.rowIndex="4"/>
+                        <!-- Frequency -->
+                        <Label text="📡 Frequency (Hz)" styleClass="label" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                        <TextField fx:id="tfFrequency" promptText="e.g. 434750 (in Hz)"
+                                   styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                        <Button fx:id="btnQueueFreq" text="+ Queue" onAction="#onQueueFreq"
+                               styleClass="queue-button" maxWidth="Infinity"
+                               GridPane.columnIndex="2" GridPane.rowIndex="5"/>
 
-                    <!-- Frequency -->
-                    <Label text="Frequency (Hz)"     GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-                    <TextField fx:id="tfFrequency"  promptText="e.g. 434750"
-                               GridPane.columnIndex="1" GridPane.rowIndex="5"/>
-                    <Button fx:id="btnQueueFreq" text="+ Queue" onAction="#onQueueFreq"
-                             maxWidth="Infinity"
-                            GridPane.columnIndex="2" GridPane.rowIndex="5"/>
+                        <!-- Period -->
+                        <Label text="⏰ Repeat Period (min)" styleClass="label" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+                        <TextField fx:id="tfPeriod" promptText="e.g. 5 (minutes)"
+                                   styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+                        <Button fx:id="btnQueuePeriod" text="+ Queue" onAction="#onQueuePeriod"
+                               styleClass="queue-button" maxWidth="Infinity"
+                               GridPane.columnIndex="2" GridPane.rowIndex="6"/>
 
-                    <!-- Period -->
-                    <Label text="Repeat Period (min)"  GridPane.columnIndex="0" GridPane.rowIndex="6"/>
-                    <TextField fx:id="tfPeriod"       promptText="e.g. 5"
-                               GridPane.columnIndex="1" GridPane.rowIndex="6"/>
-                    <Button fx:id="btnQueuePeriod" text="+ Queue" onAction="#onQueuePeriod"
-                             maxWidth="Infinity"
-                            GridPane.columnIndex="2" GridPane.rowIndex="6"/>
+                        <!-- Fox call -->
+                        <Label text="📻 Call Sign (≤15 chars)" styleClass="label" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+                        <TextField fx:id="tfFoxCall" promptText="e.g. OZ7FOX"
+                                   styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+                        <Button fx:id="btnQueueCall" text="+ Queue" onAction="#onQueueCall"
+                               styleClass="queue-button" maxWidth="Infinity"
+                               GridPane.columnIndex="2" GridPane.rowIndex="7"/>
+                    </GridPane>
+                </VBox>
 
-                    <!-- Fox call -->
-                    <Label text="Fox Call (≤15 chars)"  GridPane.columnIndex="0" GridPane.rowIndex="7"/>
-                    <TextField fx:id="tfFoxCall"       promptText="e.g. OZ7FOX"
-                               GridPane.columnIndex="1" GridPane.rowIndex="7"/>
-                    <Button fx:id="btnQueueCall" text="+ Queue" onAction="#onQueueCall"
-                             maxWidth="Infinity"
-                            GridPane.columnIndex="2" GridPane.rowIndex="7"/>
-                </GridPane>
+                <!-- ── Command Queue Section ── -->
+                <VBox styleClass="section-box">
+                    <HBox spacing="16" alignment="CENTER_LEFT">
+                        <Label text="📋  Command Queue" styleClass="section-title"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="lblPendingCount" text="Pending: 0" styleClass="pending-count"/>
+                        <Button fx:id="btnClear" text="Clear All" onAction="#onClear"
+                               styleClass="clear-button"/>
+                        <Button fx:id="btnSendAll" text="🚀  Execute All Commands" onAction="#onSendAll"
+                               styleClass="send-button" disable="true"/>
+                    </HBox>
 
-                <Separator/>
+                    <TextArea fx:id="taPendingLog" editable="false" prefHeight="140"
+                              promptText="📝 Queued commands will appear here..."
+                              wrapText="true" styleClass="text-area"/>
+                </VBox>
 
-                <!-- ── Pending queue log ── -->
-                <HBox spacing="16" alignment="CENTER_LEFT">
-                    <Label text="Pending Queue" />
-                    <Label fx:id="lblPendingCount" text="Pending commands: 0" />
-                    <Region HBox.hgrow="ALWAYS"/>
-                    <Button fx:id="btnClear" text="Clear Queue" onAction="#onClear"
-                            />
-                    <Button fx:id="btnSendAll" text="🚀  Send All to Fox" onAction="#onSendAll"
-                             disable="true"/>
-                </HBox>
-
-                <TextArea fx:id="taPendingLog" editable="false" prefHeight="120"
-                          promptText="Queued commands will appear here…"
-                           wrapText="true"/>
-
-                <Label text="Execution Log" />
-                <TextArea fx:id="taExecutionLog" editable="false" prefHeight="120"
-                          promptText="Execution results will appear here…"
-                           wrapText="true"/>
+                <!-- ── Execution Log Section ── -->
+                <VBox styleClass="section-box">
+                    <Label text="📊  Execution Results" styleClass="section-title"/>
+                    <TextArea fx:id="taExecutionLog" editable="false" prefHeight="140"
+                              promptText="✅ Command execution results will be displayed here..."
+                              wrapText="true" styleClass="text-area"/>
+                </VBox>
             </VBox>
         </ScrollPane>
     </center>
 
     <!-- ═══════════════════════  BOTTOM STATUS BAR  ════════════════════════ -->
     <bottom>
-        <HBox  alignment="CENTER_LEFT" spacing="12">
-            <Label text="Status:" />
-            <Label fx:id="lblStatus" text="Ready." />
+        <HBox styleClass="status-bar" alignment="CENTER_LEFT">
+            <Label text="Status:" styleClass="status-label"/>
+            <Label fx:id="lblStatus" text="Ready for configuration" styleClass="status-ready"/>
         </HBox>
     </bottom>
 </BorderPane>

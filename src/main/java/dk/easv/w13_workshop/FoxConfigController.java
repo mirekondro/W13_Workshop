@@ -93,14 +93,15 @@ public class FoxConfigController {
         repoGroup.selectedToggleProperty().addListener((obs, o, n) -> {
             if (rbMock.isSelected()) {
                 repository = new MockFoxRepository();
-                setStatus("Repository: Mock (offline)", false);
+                setStatus("🔧 Mock mode activated - Offline testing enabled", false);
             } else {
                 repository = new ApiFoxRepository();
-                setStatus("Repository: API  http://10.5.10.10:8080", false);
+                setStatus("🌐 API mode activated - Connected to fox network", false);
             }
         });
 
         refreshPendingCount();
+        setStatus("🎯 Ready for fox configuration", false);
     }
 
     // ── Queue button handlers (COMMAND PATTERN) ───────────────────────────────
@@ -129,7 +130,7 @@ public class FoxConfigController {
 
         taPendingLog.appendText("+ " + cmd.getDescription() + "\n");
         refreshPendingCount();
-        setStatus("Queued: " + cmd.getDescription(), false);
+        setStatus("✅ Queued: " + cmd.getDescription(), false);
     }
 
     // ── Send button handler (ITERATOR PATTERN via CommandManager) ─────────────
@@ -143,7 +144,7 @@ public class FoxConfigController {
 
         btnSendAll.setDisable(true);
         taExecutionLog.clear();
-        setStatus("⏳  Sending " + manager.pendingCount() + " command(s)…", false);
+        setStatus("⏳ Executing " + manager.pendingCount() + " command(s)...", false);
 
         // Run on background thread so UI stays responsive
         executor.submit(() -> {
@@ -163,7 +164,7 @@ public class FoxConfigController {
             Platform.runLater(() -> {
                 taPendingLog.clear();
                 btnSendAll.setDisable(false);
-                setStatus("✅  All commands sent.", false);
+                setStatus("🎉 All commands executed successfully!", false);
                 refreshPendingCount();
             });
         });
@@ -176,14 +177,14 @@ public class FoxConfigController {
         manager.clearCommands();
         taPendingLog.clear();
         refreshPendingCount();
-        setStatus("Queue cleared.", false);
+        setStatus("🗑️ Command queue cleared", false);
     }
 
     // ── Helpers ───────────────────────────────────────────────────────────────
 
     private void refreshPendingCount() {
         int n = manager.pendingCount();
-        lblPendingCount.setText("Pending commands: " + n);
+        lblPendingCount.setText("Pending: " + n);
         btnSendAll.setDisable(n == 0);
     }
 
@@ -198,8 +199,15 @@ public class FoxConfigController {
 
     private void setStatus(String msg, boolean isError) {
         lblStatus.setText(msg);
-        lblStatus.setStyle(isError
-                ? "-fx-text-fill: #e74c3c;"
-                : "-fx-text-fill: #2ecc71;");
+        // Remove existing style classes
+        lblStatus.getStyleClass().removeAll("status-ready", "status-warning", "status-error");
+
+        if (isError) {
+            lblStatus.getStyleClass().add("status-error");
+        } else if (msg.contains("⚠") || msg.contains("Warning")) {
+            lblStatus.getStyleClass().add("status-warning");
+        } else {
+            lblStatus.getStyleClass().add("status-ready");
+        }
     }
 }
